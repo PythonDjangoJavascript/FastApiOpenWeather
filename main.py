@@ -1,10 +1,19 @@
+import uvicorn
+from fastapi import FastAPI
+from starlette.templating import Jinja2Templates
+from starlette.staticfiles import StaticFiles
+from starlette.requests import Request
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+
+app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+app.mount('/static/', StaticFiles(directory='static'), name='static')
 
 
-# Press the green button in the gutter to run the script.
+@app.get("/")
+def index(request: Request):
+    return templates.TemplateResponse('index.html', {'request': request})
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
+    uvicorn.run(app, port=8000, host='127.0.0.1')
