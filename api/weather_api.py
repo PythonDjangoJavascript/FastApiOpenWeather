@@ -9,6 +9,7 @@ from services.open_weather_service import get_weather_api_async
 router = APIRouter()
 
 
+# Asyncronasly calling the method
 @router.get('/api/weather/{city}')
 async def weather(loc: Location = Depends(), units: Optional[str] = 'metric'):
 
