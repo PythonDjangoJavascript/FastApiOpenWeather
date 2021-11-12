@@ -1,11 +1,13 @@
-from typing import Optional
+from typing import List, Optional
 from fastapi import Depends, Response, status
 from fastapi.routing import APIRouter
 import httpx
 
 from models.location import Location
+from models.report import Report
 from models.validation_error import ValidationError
 from services.open_weather_service import get_weather_api_async
+from services import reports_service
 
 
 router = APIRouter()
@@ -25,3 +27,12 @@ async def weather(loc: Location = Depends(), units: Optional[str] = 'metric'):
     except Exception as e:
         print(f"Server Crashed while processing request: {e}")
         return Response(content="Error Processing your request", status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@router.get('/api/reports', name='all_reports')
+def get_report() -> List[Report]:
+    """Get all added reports data"""
+    reports_service.add_report("Hello", Location(city="Dhaka"))
+    reports_service.add_report("World", Location(city="Portland"))
+
+    return reports_service.get_report()
