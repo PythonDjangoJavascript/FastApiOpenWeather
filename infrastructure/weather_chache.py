@@ -16,9 +16,6 @@ def get_weather(city: str, state: Optional[str], country: str, units: str) -> Op
     time_diff = datetime.datetime.now() - last
     print(f"---------------->{time_diff}<---------")
     print(f"---------------->{key}<---------")
-    print(f"---------------->{datetime.datetime.now()}<---------")
-    print(
-        f"timedelta---------------->{datetime.timedelta(minutes=60)}<---------")
 
     # convert time diff in houre and compare
     if time_diff / datetime.timedelta(minutes=60) < lifetime_in_hr:
