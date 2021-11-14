@@ -4,7 +4,7 @@ from fastapi.routing import APIRouter
 import httpx
 
 from models.location import Location
-from models.report import Report
+from models.report import Report, ReportSubmittal
 from models.validation_error import ValidationError
 from services.open_weather_service import get_weather_api_async
 from services import reports_service
@@ -30,9 +30,19 @@ async def weather(loc: Location = Depends(), units: Optional[str] = 'metric'):
 
 
 @router.get('/api/reports', name='all_reports')
-def get_report() -> List[Report]:
+def report_get() -> List[Report]:
     """Get all added reports data"""
-    reports_service.add_report("Hello", Location(city="Dhaka"))
-    reports_service.add_report("World", Location(city="Portland"))
+    # reports_service.add_report("Hello", Location(city="Dhaka"))
+    # reports_service.add_report("World", Location(city="Portland"))
 
     return reports_service.get_report()
+
+
+@router.post('/api/reports', name='all_reports', status_code=status.HTTP_201_CREATED)
+def report_post(report_submittal: ReportSubmittal) -> Report:
+    """Accept a report and add it to the data collection"""
+
+    des = report_submittal.description
+    loc = report_submittal.location
+
+    return reports_service.add_report(des, loc)

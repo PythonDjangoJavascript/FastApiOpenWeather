@@ -1,3 +1,4 @@
+import uuid
 from datetime import datetime
 from typing import List
 from models.location import Location
@@ -17,9 +18,10 @@ def get_report() -> List[Report]:
 def add_report(description: str, location: Location) -> Report:
     """add a report to the database and returns it"""
     report = Report(
+        id=str(uuid.uuid4()),
         description=description,
         location=location,
-        created_at=datetime.now()
+        created_at=str(datetime.now())
     )
 
     __reports.append(report)

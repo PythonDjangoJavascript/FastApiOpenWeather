@@ -95,7 +95,7 @@ def validate_units(city: str, state: Optional[str], coutnry: Optional[str], unit
     if units:
         units = units.strip().lower()
     valid_units = {'standard', 'metric', 'imperial'}
-    if units not in validate_units:
+    if units not in valid_units:
         error = f"Invalid Units '{units}', It must be one of {validate_units}."
         raise ValidationError(error, status.HTTP_400_BAD_REQUEST)
 
